@@ -29,6 +29,7 @@ platforms.
 * x86_64-darwin-14
 * x86_64-linux
 * x86-linux
+* ppc64le-linux
 
 If you don't see your platform on this list, first, make sure that it
 installs from source, and second talk to us about setting up a binary

@@ -1,26 +1,22 @@
-dist: xenial
+dist: bionic
 compiler: clang
 language: ruby
-rvm:
-  - 2.5
-  - 2.4
-  - rubinius-3
 matrix:
   include:
-    - rvm: 2.5.1
-      os: osx
-      osx_image: xcode9.4.1
-    - rvm: 2.5.1
-      os: osx
-      osx_image: xcode9.2
-  allow_failures:
-    - rvm: rubinius-3
-  fast_finish: true
+    - rvm: 2.6.5
+      os: linux
+      arch: ppc64le
+      env:
+        - VPYTHON_BYPASS="manually managed python not supported by chrome operations"
 addons:
   apt:
     packages:
       - clang
       - pkg-config
+      - python3
+      - python2.7
+      - ninja-build
+      - patch
 bundler_args: --jobs=4 --retry=3
 before_install:
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then gem update bundler; fi
@@ -31,18 +27,5 @@ before_install:
 script:
   - git submodule update --init
   - bundle exec rake spec binary --trace
-deploy:
-  provider: releases
-  file: $(git ls-files -o pkg | head -1)
-  api_key:
-    secure: OMCBceg89uRnU+FIPAPbeOK2pISvV4Cz62r9iTRIGXQCOOXX8M40i77/3DmtkMtc9FEuNyAu1+CH886PL2WtZZPK4CmEU3HuqXz1a5VsCI+zcAZL1tevKvblXOVQ3MG+B/SZRC3rEzGwjk4027WtzCCGoGCLUu4TFJP05+/8XN4=
-  skip_cleanup: true
-  on:
-    tags: true
-    # condition: $TRAVIS_OS_NAME = osx
 cache:
   bundler: true
-notifications:
-  recipients:
-    - cowboyd@thefrontside.net
-    - bordjukov@gmail.com

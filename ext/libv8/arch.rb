@@ -11,6 +11,7 @@ module Libv8
       when /^x86$/             then 'ia32'
       when /^(x86_64|amd64)$/  then 'x64'
       when /^universal$/       then 'x64' # OS X
+      when /^powerpc64le$/     then 'ppc64le'
       else
         warn "Unsupported target: #{Gem::Platform.local.cpu}"
         Gem::Platform.local.cpu
